@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public class Game extends JFrame implements Runnable {	
 	private static final long serialVersionUID = 1L;
 	public int mapWidth = 15;
-	public int mapHeight = 1500;
+	public int mapHeight = 15;
 	private Thread thread;
 	private boolean running;
 	private BufferedImage image;
