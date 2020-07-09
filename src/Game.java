@@ -1,5 +1,4 @@
-// testing if i can push stuff!!!!!
-
+// imports
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -8,41 +7,41 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
-
+// Game class is the main class to run
 public class Game extends JFrame implements Runnable {	
-	private static final long serialVersionUID = 1L;
-	public int mapWidth = 15;
-	public int mapHeight = 15;
-	private Thread thread;
-	private boolean running;
-	private BufferedImage image;
-	public int[] pixels;
-	public ArrayList<Texture> textures;
-	public Camera camera;
-	public Screen screen;
-	
+	private static final long serialVersionUID = 1L; // useless
+
+	// position of all the walls is based on this. Numbers >0 represent walls, 0 represents blank space.
 	public static int[][] map = 
 		{
-				{1,1,1,1,1,1,1,1,2,2,2,2,2,2,2},
-				{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
-				{1,0,3,3,3,3,3,0,0,0,0,0,0,0,2},
-				{1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
-				{1,0,3,0,0,0,3,0,2,2,2,0,2,2,2},
-				{1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
-				{1,0,3,3,0,3,3,0,2,0,0,0,0,0,2},
-				{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
-				{1,1,1,1,1,1,1,1,4,4,4,0,4,4,4},
-				{1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
-				{1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
-				{1,0,0,2,0,0,1,4,0,3,3,3,3,0,4},
-				{1,0,0,0,0,0,1,4,0,3,3,3,3,0,4},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-				{1,1,1,1,1,1,1,4,4,4,4,4,4,4,4}
+				{1,1,1,1,1,1,1,1,2,2},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,0,0,0,0,0,0,0,0,1},
+				{1,1,1,1,1,1,1,1,1,1},
 		};
+
+	public int mapWidth; // looks at the map array and calculates width
+	public int mapHeight; // looks at the map array and calculates height
+	private Thread thread; // not sure
+	private boolean running; // checks if the program is running?
+	private BufferedImage image; // the "image" that is the screen
+	public int[] pixels; // the pixels of said "image"
+	public ArrayList<Texture> textures; // will try to remove this
+	public Camera camera; // the players perspective
+	public Screen screen; // what the player sees
+	private int framex, framey; // size of the screen
 	
 	public Game() {
 		thread = new Thread(this);
-		image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
+		framex = 850;
+		framey = 600;
+		image = new BufferedImage(framex, framey, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 		textures = new ArrayList<Texture>();
 		textures.add(Texture.wood);
@@ -50,13 +49,15 @@ public class Game extends JFrame implements Runnable {
 		textures.add(Texture.bluestone);
 		textures.add(Texture.stone);
 		camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
-		screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+		mapHeight = map.length;
+		mapWidth = map[0].length;
+		screen = new Screen(map, mapWidth, mapHeight, textures, framex, framey);
 		addKeyListener(camera);
-		setSize(640, 480);
+		setSize(framex, framey);
 		setResizable(false);
-		setTitle("3D Engine");
+		setTitle("Cafe Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBackground(Color.black);
+		setBackground(Color.green);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		start();

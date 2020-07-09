@@ -9,15 +9,13 @@ public class Camera implements KeyListener {
 	public final double ROTATION_SPEED = .045;
 
 
-	public Camera(double x, double y, double xd, double yd, double xp, double yp) 
-	{	
+	public Camera(double x, double y, double xd, double yd, double xp, double yp) {	
 		xPos = x;
 		yPos = y;
 		xDir = xd;
 		yDir = yd;
 		xPlane = xp;
 		yPlane = yp;
-		
 	}
 
 
@@ -79,7 +77,4 @@ public class Camera implements KeyListener {
 			yPlane=oldxPlane*Math.sin(ROTATION_SPEED) + yPlane*Math.cos(ROTATION_SPEED);
 		}
 	}
-	
-	
-	
 }
